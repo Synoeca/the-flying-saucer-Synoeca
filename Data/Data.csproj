@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>TheFTL.Data</RootNamespace>
+    <AssemblyName>TheFTL.Data</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ksu.Cs.CodeAnalyzers" Version="1.0.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="RoundRegister">
+      <HintPath>..\RoundRegister.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

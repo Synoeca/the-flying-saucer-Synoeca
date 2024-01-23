@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - The Flying Saucer</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/Website.styles.css" asp-append-version="true" />
+</head>
+<style>
+	.navbar-brand:hover {
+		cursor: pointer;
+	}
+</style>
+<style>
+	.no-select {
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+</style>
+<body class="text-white black-background" style="background-image: url('/images/background.jpg');">
+	<header>
+		<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark bg-gradient border-top border-bottom box-shadow mb-3">
+			<div class="container">
+				<a class="navbar-brand text-white no-select" onclick="scrollToTop()" tabindex="-1">The Flying Saucer</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a class="nav-link text-white" href="#entrees" data-scroll-to="entrees" style="font-family: 'Nunito Sans'"><i class="fas fa-utensils"></i> Entrees</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="#sides" data-scroll-to="sides"><i class="fas fa-utensil-spoon"></i> Sides</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="#drinks" data-scroll-to="drinks"><i class="fas fa-glass-martini"></i> Drinks</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" asp-area="" asp-page="/Privacy"><i class="fas fa-info-circle"></i> Privacy</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" asp-area="" asp-page="/About"><i class="fas fa-shield-alt"></i> About</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white position-relative" asp-area="" asp-page="/Cart">
+								<i class="fas fa-shopping-cart"></i> Cart
+								<span class="badge bg-primary rounded-circle cart-badge">0</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="image-container">
+		<img src="/images/crop.png" alt="Image Description">
+	</div>
+	<script src="/js/scroll.js"></script>
+	</nav>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+
+	<footer class="border-top footer text-muted">
+		<div class="container text-white opacity-75">
+			(ɔ) 2023 - The Flying Sacuer LLC - <a asp-area="" asp-page="/Privacy">Privacy</a>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

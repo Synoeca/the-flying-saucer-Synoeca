@@ -1,0 +1,642 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+
+<form id="menu-display">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/solid.js' crossorigin='anonymous'></script>
+
+	<div class="index-greeting" id="top">
+		<h1 class="display-4">The Ultimate Destination<br /> for Galactic Gastronomy!</h1>
+	</div>
+	<div id="search-filters-container">
+		<div id="search" class="d-flex justify-content-end">
+			<div class="search-wrapper">
+				<input type="text" id="search-input" name="SearchTerms" value="@Model.SearchTerms" placeholder="Search...">
+				<button type="submit" id="search-button"><i class="fa fa-search"></i></button>
+			</div>
+		</div>
+
+		<div id="filters">
+			<div id="filter">
+				<h4><i class="fa fa-tags"></i> Types</h4>
+				@foreach (String type in Menu.ItemTypes)
+				{
+					if (type != null)
+					{
+						<label>
+							<input type="checkbox" name="Types" value="@type" checked="@Model.Types.Contains(type)" />
+							@type
+						</label>
+					}
+				}
+			</div>
+
+			<div id="filter">
+				<h4><i class="fa fa-fire"></i> Calories</h4>
+				<div class="filter-inputs">
+					<div class="filter-input">
+						<label>Min</label>
+						<input name="CaloriesMin" type="number" min="0" max="99999" step="1" placeholder="@Model.CaloriesMin" />
+					</div>
+					<div class="filter-input">
+						<label>Max</label>
+						<input name="CaloriesMax" type="number" min="0" max="99999" step="1" placeholder="@Model.CaloriesMax" />
+					</div>
+				</div>
+			</div>
+
+			<div id="filter">
+				<h4><i class="fa fa-dollar-sign"></i> Price</h4>
+				<div class="filter-inputs">
+					<div class="filter-input">
+						<label>Min</label>
+						<input name="PriceMin" type="number" min="0" max="99999" step="0.5" placeholder="@Model.PriceMin" />
+					</div>
+					<div class="filter-input">
+						<label>Max</label>
+						<input name="PriceMax" type="number" min="0" max="99999" step="0.5" placeholder="@Model.PriceMax" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="~/js/bouncer.js"></script>
+	<script src="~/js/search.js"></script>
+	<script src="~/js/cartcount.js"></script>
+
+	@{
+		bool entreeExist = false;
+		bool sideExist = false;
+		bool drinkExist = false;
+		foreach (IMenuItem entree in @Model.Menus)
+		{
+			if (entree is Entree etr)
+			{
+				entreeExist = true;
+				break;
+			}
+		}
+
+		foreach (IMenuItem side in @Model.Menus)
+		{
+			if (side is Side sd)
+			{
+				sideExist = true;
+				break;
+			}
+		}
+
+		foreach (IMenuItem drink in @Model.Menus)
+		{
+			if (drink is Drink drk)
+			{
+				drinkExist = true;
+				break;
+			}
+		}
+		<script src="~/js/expand.js"></script>
+		if (entreeExist)
+		{
+			<ul class="menu-list" name="entree-list">
+				<div class="menu-title" name="entree-title" id="entrees">
+					<h4><i class="fas fa-utensils"></i> Entrees</h4>
+				</div>
+				<br />
+				@{
+					foreach (IMenuItem entree in @Model.Menus)
+					{
+						if (entree is Entree etr)
+						{
+							switch (etr)
+							{
+								case FlyingSaucer:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#cs" role="button" aria-expanded="false" aria-controls="cs">
+												<div class="menu-name"><i class="fas fa-space-shuttle"></i> @etr.Name</div>
+												<div class="menu-price">@etr.Price</div>
+												<div class="menu-calories">@etr.Calories</div>
+											</div>
+											<div class="collapse input-group" id="cs">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="berries" checked>
+															<label class="form-check-label" for="berries">Berries</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="syrup" checked>
+															<label class="form-check-label" for="syrup">Syrup</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="whippedCream" checked>
+															<label class="form-check-label" for="whippedCream">Whipped Cream</label>
+														</div>
+														<hr>
+														<div class="form-group stack-size">
+															<label for="stackSizeFS">Stack Size</label>
+															<input type="number" id="stackSizeFS" class="form-control" value="6" min="0" max="12" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case CrashedSaucer:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#fs" role="button" aria-expanded="false" aria-controls="fs">
+												<div class="menu-name"><i class="fas fa-exclamation-triangle"></i> @etr.Name</div>
+												<div class="menu-price">@etr.Price</div>
+												<div class="menu-calories">@etr.Calories</div>
+											</div>
+											<div class="collapse input-group" id="fs">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="syrupCS" checked>
+															<label class="form-check-label" for="syrupCS">Syrup</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="butter" checked>
+															<label class="form-check-label" for="butter">Butter</label>
+														</div>
+														<hr>
+														<div class="form-group stack-size">
+															<label for="stackSizeCS">Stack Size</label>
+															<input type="number" id="stackSizeCS" class="form-control" value="2" min="0" max="6" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case LivestockMutilation:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#lm" role="button" aria-expanded="false" aria-controls="lm">
+												<div class="menu-name"><i class="fas fa-skull-crossbones"></i> @etr.Name</div>
+												<div class="menu-price">@etr.Price</div>
+												<div class="menu-calories">@etr.Calories</div>
+											</div>
+											<div class="collapse input-group" id="lm">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="gravy" checked>
+															<label class="form-check-label" for="gravy">Syrup</label>
+														</div>
+														<hr>
+														<div class="form-group stack-size">
+															<label for="biscuits">Biscuits</label>
+															<input type="number" id="biscuits" class="form-control" value="3" min="3" max="8" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case OuterOmelette:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#om" role="button" aria-expanded="false" aria-controls="om">
+												<div class="menu-name"><i class="fas fa-egg"></i> @etr.Name</div>
+												<div class="menu-price">@etr.Price</div>
+												<div class="menu-calories">@etr.Calories</div>
+											</div>
+											<div class="collapse input-group" id="om">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="cheddarCheese" checked>
+															<label class="form-check-label" for="cheddarCheese">Cheddar Cheese</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="peppers" checked>
+															<label class="form-check-label" for="peppers">Peppers</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="mushrooms" checked>
+															<label class="form-check-label" for="mushrooms">Mushrooms</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="tomatoes" checked>
+															<label class="form-check-label" for="tomatoes">Tomatoes</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="onions" checked>
+															<label class="form-check-label" for="onions">Onions</label>
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+							}
+						}
+					}
+				}
+			</ul>
+		}
+		if (sideExist)
+		{
+			<ul class="menu-list" name="side-list">
+				<div class="menu-title" name="side-title" id="sides">
+					<h4><i class="fas fa-utensil-spoon"></i> Sides</h4>
+				</div>
+				<br />
+				@{
+					int count = 0;
+					foreach (IMenuItem side in @Model.Menus)
+					{
+						if (side is Side sd)
+						{
+							if (count == 3)
+							{
+								<br />
+							}
+							switch (sd)
+							{
+								case CropCircle:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#cr" role="button" aria-expanded="false" aria-controls="cr">
+												<div class="menu-name"><i class="fas fa-bullseye"></i> @sd.Name</div>
+												<div class="menu-price">@sd.Price</div>
+												<div class="menu-calories">@sd.Calories</div>
+											</div>
+											<div class="collapse input-group" id="cr">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="berriesCR" checked>
+															<label class="form-check-label" for="berriesCR">Berries</label>
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case EvisceratedEggs:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#eg" role="button" aria-expanded="false" aria-controls="eg">
+												<div class="menu-name"><i class="fas fa-burn"></i> @sd.Name</div>
+												<div class="menu-price">@sd.Price</div>
+												<div class="menu-calories">@sd.Calories</div>
+											</div>
+											<div class="collapse input-group" id="eg">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<label for="egg-styles">Select egg style:</label>
+														<div class="form-check">
+															<input type="radio" class="form-check-input" id="soft-boiled" name="egg-style">
+															<label class="form-check-label" for="soft-boiled">Soft Boiled</label>
+														</div>
+														<div class="form-check">
+															<input type="radio" class="form-check-input" id="hard-boiled" name="egg-style">
+															<label class="form-check-label" for="hard-boiled">Hard Boiled</label>
+														</div>
+														<div class="form-check">
+															<input type="radio" class="form-check-input" id="scrambled" name="egg-style">
+															<label class="form-check-label" for="scrambled">Scrambled</label>
+														</div>
+														<div class="form-check">
+															<input type="radio" class="form-check-input" id="poached" name="egg-style">
+															<label class="form-check-label" for="poached">Poached</label>
+														</div>
+														<div class="form-check">
+															<input type="radio" class="form-check-input" id="sunny-side-up" name="egg-style">
+															<label class="form-check-label" for="sunny-side-up">Sunny Side Up</label>
+														</div>
+														<div class="form-check">
+															<input type="radio" class="form-check-input" id="over-easy" name="egg-style" checked>
+															<label class="form-check-label" for="over-easy">Over Easy</label>
+														</div>
+														<hr>
+														<div class="form-group stack-size">
+															<label for="countEG">Count</label>
+															<input type="number" id="countEG" class="form-control" value="2" min="1" max="6" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case MissingLinks:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#ms" role="button" aria-expanded="false" aria-controls="ms">
+												<div class="menu-name"><i class="fas fa-chain-broken"></i> @sd.Name</div>
+												<div class="menu-price">@sd.Price</div>
+												<div class="menu-calories">@sd.Calories</div>
+											</div>
+											<div class="collapse input-group" id="ms">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-group stack-size">
+															<label for="countMS">Count</label>
+															<input type="number" id="countMS" class="form-control" value="2" min="1" max="8" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case GlowingHaystack:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#gh" role="button" aria-expanded="false" aria-controls="gh">
+												<div class="menu-name"><i class="fas fa-haykal"></i> @sd.Name</div>
+												<div class="menu-price">@sd.Price</div>
+												<div class="menu-calories">@sd.Calories</div>
+											</div>
+											<div class="collapse input-group" id="gh">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="greenChileSauce" checked>
+															<label class="form-check-label" for="greenChileSauce">Green Chile Sauce</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="sourCream" checked>
+															<label class="form-check-label" for="sourCream">Sour Cream</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="tomatoes" checked>
+															<label class="form-check-label" for="tomatoes">Tomatoes</label>
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case TakenBacon:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#tb" role="button" aria-expanded="false" aria-controls="tb">
+												<div class="menu-name"><i class="fas fa-bacon"></i> @sd.Name</div>
+												<div class="menu-price">@sd.Price</div>
+												<div class="menu-calories">@sd.Calories</div>
+											</div>
+											<div class="collapse input-group" id="tb">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-group stack-size">
+															<label for="countTB">Count</label>
+															<input type="number" id="countTB" class="form-control" value="2" min="1" max="6" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case YouAreToast:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#yt" role="button" aria-expanded="false" aria-controls="yt">
+												<div class="menu-name"><i class="fas fa-bread-slice"></i> @sd.Name</div>
+												<div class="menu-price">@sd.Price</div>
+												<div class="menu-calories">@sd.Calories</div>
+											</div>
+											<div class="collapse input-group" id="yt">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-group stack-size">
+															<label for="countYT">Count</label>
+															<input type="number" id="countYT" class="form-control" value="2" min="1" max="12" style="width: 11rem;">
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+							}
+							count++;
+						}
+
+					}
+				}
+			</ul>
+		}
+
+		if (drinkExist)
+		{
+			<ul class="menu-list" name="drink-list">
+				@{
+					<div class="menu-title" name="drink-title" id="drinks">
+						<h4><i class="fas fa-glass-martini"></i> Drinks</h4>
+					</div>
+					<br />
+					foreach (IMenuItem drink in @Model.Menus)
+					{
+						if (drink is Drink drk)
+						{
+							switch (drk)
+							{
+								case LiquifiedVegetation:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#lv" role="button" aria-expanded="false" aria-controls="lv">
+												<div class="menu-name"><i class="fas fa-leaf"></i> @drk.Name</div>
+												<div class="menu-price">@drk.Price</div>
+												<div class="menu-calories">@drk.Calories</div>
+											</div>
+											<div class="collapse input-group" id="lv">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-group">
+															<label for="serving-size">Select serving size:</label>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="smallLV" name="serving-size-lv" value="Small" checked>
+																<label class="form-check-label" for="smallLV">Small</label>
+															</div>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="mediumLV" name="serving-size-lv" value="Medium">
+																<label class="form-check-label" for="mediumLV">Medium</label>
+															</div>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="largeLV" name="serving-size-lv" value="Large">
+																<label class="form-check-label" for="largeLV">Large</label>
+															</div>
+														</div>
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="iceLV" checked>
+															<label class="form-check-label" for="iceLV">Ice</label>
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case SaucerFuel:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#sf" role="button" aria-expanded="false" aria-controls="sf">
+												<div class="menu-name"><i class="fas fa-gas-pump"></i> @drk.Name</div>
+												<div class="menu-price">@drk.Price</div>
+												<div class="menu-calories">@drk.Calories</div>
+											</div>
+											<div class="collapse input-group" id="sf">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-group">
+															<label for="serving-size">Select serving size:</label>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="smallSF" name="serving-size-sf" value="Small" checked>
+																<label class="form-check-label" for="smallSF">Small</label>
+															</div>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="mediumSF" name="serving-size-sf" value="Medium">
+																<label class="form-check-label" for="mediumSF">Medium</label>
+															</div>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="largeSF" name="serving-size-sf" value="Large">
+																<label class="form-check-label" for="largeSF">Large</label>
+															</div>
+														</div>
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="decaf">
+															<label class="form-check-label" for="decaf">Decaf</label>
+														</div>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="creamSF">
+															<label class="form-check-label" for="creamSF">Cream</label>
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+								case InorganicSubstance:
+									<li>
+										<div class="details">
+											<div class="menu-item" data-bs-toggle="collapse" href="#os" role="button" aria-expanded="false" aria-controls="os">
+												<div class="menu-name"><i class="fas fa-biohazard"></i> @drk.Name</div>
+												<div class="menu-price">@drk.Price</div>
+												<div class="menu-calories">@drk.Calories</div>
+											</div>
+											<div class="collapse input-group" id="os">
+												<div class="menu-item" style="color: whitesmoke">
+													<div class="form-group">
+														<hr>
+														<div class="form-group">
+															<label for="serving-size">Select serving size:</label>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="smallOS" name="serving-size-os" value="Small" checked>
+																<label class="form-check-label" for="smallOS">Small</label>
+															</div>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="mediumOS" name="serving-size-os" value="Medium">
+																<label class="form-check-label" for="mediumOS">Medium</label>
+															</div>
+															<div class="form-check">
+																<input type="radio" class="form-check-input" id="largeOS" name="serving-size-os" value="Large">
+																<label class="form-check-label" for="largeOS">Large</label>
+															</div>
+														</div>
+														<hr>
+														<div class="form-check">
+															<input type="checkbox" class="form-check-input" id="iceOS" checked>
+															<label class="form-check-label" for="iceOS">Ice</label>
+														</div>
+														<hr>
+														<button class="btn btn-primary add-to-cart" onclick="addToCart(event)">
+															<i class="fa fa-shopping-cart"></i> Add to Cart
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+									break;
+							}
+						}
+					}
+
+				}
+			</ul>
+		}
+	}
+</form>
+
+

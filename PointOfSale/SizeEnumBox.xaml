@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="TheFTL.PointOfSale.SizeEnumBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:TheFTL.PointOfSale"
+             xmlns:data="clr-namespace:TheFTL.Data;assembly=TheFTL.Data"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="200">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Name="sizeEnumObjProvider" x:Key="sizeenums" MethodName="GetValues" ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="data:ServingSize"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <RadioButton Content="{TemplateBinding ContentPresenter.Content}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <ListBox ItemsSource="{Binding Source={StaticResource sizeenums}}" SelectedItem="{Binding Path=SizeEnums, RelativeSource={RelativeSource AncestorType=local:SizeEnumBox}}"/>
+    </StackPanel>
+</UserControl>

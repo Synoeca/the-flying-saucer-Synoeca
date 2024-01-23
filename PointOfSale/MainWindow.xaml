@@ -1,0 +1,92 @@
+﻿<Window x:Class="TheFTL.PointOfSale.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TheFTL.PointOfSale"
+        mc:Ignorable="d"
+        Title="FTL: Flyingsaucer Transaction Loader" Height="720" Width="1080">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="65*"/>
+            <ColumnDefinition Width="35*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <local:MenuItemSelectionControl x:Name="uxMenuItemSelectionControl" Grid.Column ="0" Pick="OnPicked"/>
+        <local:CrashedSaucerCustomizationControl x:Name="uxCrashedSaucerCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:LivestockMutilationCustomizationControl x:Name="uxLivestockMutilationCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:FlyingSaucerCustomizationControl x:Name="uxFlyingSaucerCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:OuterOmeletteCustomizationControl x:Name="uxOuterOmeletteCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:CropCircleCustomizationControl x:Name="uxCropCircleCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:EvisceratedEggsCustomizationControl x:Name="uxEvisceratedEggsCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:GlowingHaystackCustomizationControl x:Name="uxGlowingHaystackCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:MissingLinksCustomizationControl x:Name="uxMissingLinksCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:TakenBaconCustomizationControl x:Name="uxTakenBaconCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:YouAreToastCustomizationControl x:Name="uxYouAreToastCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:InorganicSubstanceCustomizationControl x:Name="uxInorganicSubstanceCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:LiquifiedVegetationCustomizationControl x:Name="uxLiquifiedVegetationCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:SaucerFuelCustomizationControl x:Name="uxSaucerFuelCustomizationControl" Grid.Column ="0" Visibility="Collapsed"/>
+        <local:OrderSummaryControl x:Name="uxOrderSummaryControl" Grid.Column ="1" Grid.RowSpan="2" Margin="0,0,0,0" Select="OnSelected" Remove="OnRemoved"/>
+        <local:PaymentOptionScreenControl x:Name="uxPaymentOptionScreenControl" Grid.Column ="0" Grid.RowSpan="2" Margin="0,0,0,0" Visibility="Collapsed" Return="OnReturned" Card="OnCardPaid" Cash="OnCashPaid"/>
+        <local:CurrencyControl x:Name="uxCurrencyControl" Grid.Column ="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="0,0,0,0" Visibility="Collapsed" Return="OnReturned" Finalize="OnFinalized"/>
+        
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="0,0,0,0" Margin="0,0,0,0"/>
+        <Border Grid.Column="1" Grid.RowSpan="2" BorderBrush="Black" BorderThickness="0,0,0,0"/>
+        <Grid x:Name="ButtonGrid" Grid.Row="1" Margin="3,0,0,3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Name ="CancelOrder" Grid.Column="0" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="30,0,30,0" Click="CancleOrderClick">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox StretchDirection="DownOnly">
+                            <Label FontSize="26" FontStretch="Normal" xml:space="preserve">Cancel
+ Order</Label>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Name ="BackToMenu" Grid.Column="1" FontSize="20" Padding="30,0,30,0" HorizontalAlignment="Center" VerticalAlignment="Center" Click="BacktoMenuClick">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox StretchDirection="DownOnly">
+                            <Label FontSize="26" FontStretch="Normal" xml:space="preserve">   Back
+to Menu</Label>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Name ="CompleteOrder" Grid.Column="2" FontSize="20" Padding="30,0,30,0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="CompleteOrderClick">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <Viewbox StretchDirection="DownOnly">
+                            <Label FontSize="26" FontStretch="Normal" xml:space="preserve">Complete
+   Order</Label>
+                        </Viewbox>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

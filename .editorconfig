@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# NAM0003: Class names should not begin with 'I' followed by a capital letter
+dotnet_diagnostic.NAM0003.severity = silent
