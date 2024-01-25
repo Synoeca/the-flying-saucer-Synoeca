@@ -29,8 +29,6 @@
 
 <img src="https://user-images.githubusercontent.com/64255510/229263014-bb8c62c9-d1a8-4200-8bdb-ea1880f3035c.png"/>
 
-<img src="https://user-images.githubusercontent.com/64255510/233535595-185e8c44-e3b7-4552-ba5a-8641fff2fcb6.png"/>
-
 
 **_Flyingsaucer Transaction Loader_** (FTL) is a software to support a fast-food restaurant chain, the Flying Saucer.
 
